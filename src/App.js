@@ -1,11 +1,18 @@
 import './App.css';
 import Dashboard from './containers/Dashboard';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Signup from './containers/Auth/Signup';
 
 function App() {
   return (
     <div className="App">
-      <h1 className="text-primary">App Component</h1>
-      <Dashboard />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={Dashboard} />
+          <Route exact path='/signup' component={Signup} />
+
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
