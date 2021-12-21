@@ -1,12 +1,13 @@
 import React from 'react';
 import { Card, Form, Button, Row, Col } from 'react-bootstrap';
+import RightsComponent from './RightsComponent';
 
 const Signup = () => {
 
   let selectCountries = ['Uganda', 'Kenya', 'Tanzania', 'Germany', 'Burundi'];
   selectCountries.sort();
   return (
-    <div className='d-flex justify-content-center align-items-center' style={{ maxHeight: "100vh", minHeight: "100vh" }}>
+    <div className='d-flex justify-content-around align-items-center px-5' style={{ maxHeight: "100vh", minHeight: "100vh" }}>
       <Card style={{ width: '25rem', minHeight: "80vh", maxHeight: "80vh", overflow: "auto" }}>
         <Card.Body>
           <h2 className="text-secondary text-center mb-3">Sign Up</h2>
@@ -81,6 +82,10 @@ const Signup = () => {
           </Form>
         </Card.Body>
       </Card>
+
+
+
+      <RightsComponent />
     </div>
   );
 };
