@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Card, Form, Button, Row, Col } from 'react-bootstrap';
 import RightsComponent from './RightsComponent';
@@ -5,18 +6,18 @@ import RightsComponent from './RightsComponent';
 const Signup = () => {
 
   const [signupInfo, setSignupInfo] = useState({
-    firstName: '',
-    lastName: '',
-    telephoneNumber: '',
-    accountNumber: '',
-    bankName: '',
+    first_name: '',
+    last_name: '',
+    telephone_number: '',
+    account_number: '',
+    bank_name: '',
     country: '',
     email: '',
     password: '',
-    passwordConfirmation: '',
-    contribution: false,
-    membershipFee: false,
-    rules:false
+    password_confirmation: '',
+    // contribution: false,
+    // membershipFee: false,
+    // rules:false
   })
 
   const handleChange = (e) => {
@@ -29,6 +30,17 @@ const Signup = () => {
     setSignupInfo({ ...signupInfo, [e.target.value]: e.target.checked})
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const user = { ...signupInfo }
+    axios.post('http://localhost:3001/registrations', {user}, { withCredentials: true })
+      .then((response) => {
+      console.log(response)
+      }).catch((err) => {
+      console.log('Something went wrong', err)
+    })
+  }
+
   
 
   let selectCountries = ['Uganda', 'Kenya', 'Tanzania', 'Germany', 'Burundi'];
@@ -39,28 +51,29 @@ const Signup = () => {
         <Card.Body>
           <h2 className="text-secondary text-center mb-3">Sign Up</h2>
 
-          <Form >
+          <Form onSubmit={ handleSubmit }>
             <Form.Group className="mb-3">
               <Row>
                 <Col>
-                  <Form.Control required placeholder="First name" name='firstName' onChange= { handleChange } />
+                  <Form.Control required placeholder="First name" name='first_name' onChange= { handleChange } />
                 </Col>
                 <Col>
-                  <Form.Control required placeholder="Last name" name='lastName' onChange={handleChange} />
+                  <Form.Control required placeholder="Last name" name='last_name' onChange={handleChange} />
                 </Col>
               </Row>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control required type="text" placeholder="Telephone Number" name='telephoneNumber' onChange={handleChange}/>
+              <Form.Label> example: +1234567890</Form.Label>
+              <Form.Control required type="tel" pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$" placeholder="Telephone Number" name='telephone_number' onChange={handleChange}/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control required type="text" placeholder="Account Number" name='accountNumber' onChange={handleChange}/>
+              <Form.Control required type="text" placeholder="Account Number" name='account_number' onChange={handleChange}/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control required type="text" placeholder="Name of Bank" name='bankName' onChange={handleChange}/>
+              <Form.Control required type="text" placeholder="Name of Bank" name='bank_name' onChange={handleChange}/>
             </Form.Group>
 
             <Form.Select className="mb-3 text-secondary" name='country' onChange= { handleChange } >
