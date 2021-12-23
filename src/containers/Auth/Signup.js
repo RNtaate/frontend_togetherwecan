@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import RightsComponent from './RightsComponent';
 
 const Signup = () => {
@@ -24,6 +25,8 @@ const Signup = () => {
 
   const [disabled, setDisabled] = useState(false)
 
+  const history = useHistory();
+
   const handleChange = (e) => {
     console.log(e.target.value)
     setSignupInfo({ ...signupInfo, [e.target.name]: e.target.value })
@@ -43,6 +46,7 @@ const Signup = () => {
       .then((response) => {
         console.log(response)
         setErrors([])
+        history.push('/');
       }).catch((err) => {
         if(err.response.status == 422){
           console.log('Something went wrong', err.response.data.errors)
