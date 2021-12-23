@@ -62,7 +62,6 @@ const Signup = () => {
           console.log('Your network might be down, please try again later');
           setErrors(['Your network might be down, please try again later'])
         }
-      }).finally(() => {
         setDisabled(false);
       })
   }
@@ -149,7 +148,7 @@ const Signup = () => {
 
           {errors.length > 0 ? <Alert variant='danger' className="mt-3">
             { errors.map((error, index) => <p key={index}>{error}</p>)}
-          </Alert> : <p>Hold on!</p>}
+          </Alert> : null}
         </Card.Body>
       </Card>
 
