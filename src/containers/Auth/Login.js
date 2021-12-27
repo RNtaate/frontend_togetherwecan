@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link, useHistory} from 'react-router-dom';
 import axios from 'axios'
+import { connect } from 'react-redux';
+import { setLoggedInStatus } from '../../redux/actions';
 
 
-const Login = () => {
+const Login = (props) => {
+
+  let { setUserLoggedInStatus } = props
 
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -28,6 +32,7 @@ const Login = () => {
     axios.post('http://localhost:3001/sessions', { user: loginUser }, { withCredentials: true })
       .then((response) => {
         console.log(response)
+        setUserLoggedInStatus(response.data.logged_in);
         hishory.push('/')
       }).catch((err) => {
         if (err.response && (err.response.status == 403)) {
@@ -81,4 +86,12 @@ const Login = () => {
   )
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUserLoggedInStatus: (loggedInStatus) => {
+      dispatch( setLoggedInStatus(loggedInStatus) )
+    }
+  }
+};
+
+export default connect(null, mapDispatchToProps)(Login);
