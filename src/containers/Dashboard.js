@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import { setLoggedInStatus } from '../redux/actions';
 
@@ -25,11 +26,11 @@ const Dashboard = (props) => {
   return (
     <div>
       <h2 className="text-secondary">Dashboard</h2>
-      <h4>Welcome {JSON.stringify(userObj.loggedin)}</h4>
+      <h4>Welcome {userObj.user.first_name.toUpperCase()}</h4>
 
-      <button type="button" onClick={handleLogout}>
+      <Button type="button" onClick={handleLogout}>
         Log Out
-      </button>
+      </Button>
     </div>
   );
 };
