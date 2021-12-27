@@ -3,12 +3,12 @@ import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link, useHistory} from 'react-router-dom';
 import axios from 'axios'
 import { connect } from 'react-redux';
-import { setLoggedInStatus } from '../../redux/actions';
+import { setCurrentUser, setLoggedInStatus } from '../../redux/actions';
 
 
 const Login = (props) => {
 
-  let { setUserLoggedInStatus } = props
+  let { setUserLoggedInStatus, setUserObj } = props
 
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -33,6 +33,7 @@ const Login = (props) => {
       .then((response) => {
         console.log(response)
         setUserLoggedInStatus(response.data.logged_in);
+        setUserObj(response.data.user);
         hishory.push('/')
       }).catch((err) => {
         if (err.response && (err.response.status == 403)) {
@@ -90,6 +91,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setUserLoggedInStatus: (loggedInStatus) => {
       dispatch( setLoggedInStatus(loggedInStatus) )
+    },
+    setUserObj: (currentUser) => {
+      dispatch( setCurrentUser(currentUser) )
     }
   }
 };
