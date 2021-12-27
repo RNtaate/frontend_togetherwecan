@@ -9,13 +9,13 @@ import Home from './components/Home';
 import Login from './containers/Auth/Login';
 import PrivateRoute from './containers/Auth/PrivateRoute';
 // import userReducer from './redux/reducers/userReducer';
-import { setLoggedInStatus } from './redux/actions';
+import { setCurrentUser, setLoggedInStatus } from './redux/actions';
 
 
 
 
 function App(props) {
-  let { userObj, setUserLoggedInStatus } = props;
+  let { userObj, setUserLoggedInStatus, setUserObj } = props;
 
 
   useEffect(() => {
@@ -24,6 +24,7 @@ function App(props) {
       .then((response) => {
         console.log(response)
         setUserLoggedInStatus(response.data.logged_in)
+        setUserObj(response.data.user);
       }).catch((err) => {
         console.log(err)
       })
@@ -34,7 +35,7 @@ function App(props) {
 
     <div className="App">
       {
-        userObj.loggedin == null ? <p>verifying credentials</p> :
+       Object.values(userObj).includes(null) ? <p>verifying credentials</p> :
           <BrowserRouter>
             <Switch>
               <PrivateRoute exact path='/' component={Dashboard}  />
@@ -60,6 +61,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setUserLoggedInStatus: (loggedInStatus) => {
       dispatch(setLoggedInStatus(loggedInStatus))
+    },
+    setUserObj: (currentUser) => {
+      dispatch( setCurrentUser(currentUser) )
     }
   }
 };
