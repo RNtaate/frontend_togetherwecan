@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({component: Component, ...rest}) => {
-  const logged_in = false;
+const PrivateRoute = ({component: Component, userObj, ...rest}) => {
+  const logged_in = userObj.loggedin;
+  console.log(logged_in)
   return (
     <Route
     {...rest}
@@ -14,4 +16,10 @@ const PrivateRoute = ({component: Component, ...rest}) => {
   )
 }
 
-export default PrivateRoute;
+const mapStateToProps = (state) => {
+  return {
+    userObj: state.userReducer
+  }
+}
+
+export default connect(mapStateToProps,null)(PrivateRoute) ;
