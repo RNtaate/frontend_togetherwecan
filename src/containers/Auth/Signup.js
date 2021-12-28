@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import RightsComponent from './RightsComponent';
+import { connect } from 'react-redux';
+import { setCurrentUser, setLoggedInStatus } from '../../redux/actions';
 
-const Signup = () => {
+const Signup = (props) => {
+
+  const { setUserLoggedInStatus, setUserObj } = props;
 
   const [signupInfo, setSignupInfo] = useState({
     first_name: '',
@@ -46,6 +50,8 @@ const Signup = () => {
       .then((response) => {
         console.log(response)
         setErrors([])
+        setUserLoggedInStatus(response.data.logged_in);
+        setUserObj(response.data.user);
         history.push('/');
       }).catch((err) => {
         if(err.response.status == 422){
@@ -158,4 +164,15 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUserLoggedInStatus: (loggedInStatus) => {
+      dispatch( setLoggedInStatus(loggedInStatus) )
+    },
+    setUserObj: (currentUser) => {
+      dispatch( setCurrentUser(currentUser) )
+    }
+  }
+};
+
+export default connect(null, mapDispatchToProps)(Signup);
