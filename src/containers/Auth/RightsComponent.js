@@ -3,7 +3,7 @@ import { Card, Form, Button, Row, Col } from 'react-bootstrap';
 
 const RightsComponent = () => {
   return (
-    <div style={{height: "80vh", maxWidth: "40%"}}>
+    <div>
       <Card>
         <Card.Header as="h4" className="text-secondary" >Member's rights</Card.Header>
         <Card.Body>

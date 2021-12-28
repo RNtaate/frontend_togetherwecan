@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RightsComponent from './RightsComponent';
 import { connect } from 'react-redux';
 import { setCurrentUser, setLoggedInStatus } from '../../redux/actions';
@@ -54,7 +54,7 @@ const Signup = (props) => {
         setUserObj(response.data.user);
         history.push('/');
       }).catch((err) => {
-        if(err.response.status == 422){
+        if (err.response.status == 422) {
           console.log('Something went wrong', err.response.data.errors)
           let errorsHolder = Object.entries(err.response.data.errors);
 
@@ -63,8 +63,7 @@ const Signup = (props) => {
 
           setErrors(newArray);
         }
-        else
-        {
+        else {
           console.log('Your network might be down, please try again later');
           setErrors(['Your network might be down, please try again later'])
         }
@@ -153,13 +152,17 @@ const Signup = (props) => {
           </Form>
 
           {errors.length > 0 ? <Alert variant='danger' className="mt-3">
-            { errors.map((error, index) => <p key={index}>{error}</p>)}
+            {errors.map((error, index) => <p key={index}>{error}</p>)}
           </Alert> : null}
         </Card.Body>
       </Card>
 
-
-      <RightsComponent />
+      <div style={{height: "80vh", maxWidth: "40%"}}>
+        <RightsComponent />
+        <p className="mt-3 text-secondary">
+          Already have an account? <Link to="/login">Log in</Link>
+        </p>
+      </div>
     </div>
   );
 };
@@ -167,10 +170,10 @@ const Signup = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setUserLoggedInStatus: (loggedInStatus) => {
-      dispatch( setLoggedInStatus(loggedInStatus) )
+      dispatch(setLoggedInStatus(loggedInStatus))
     },
     setUserObj: (currentUser) => {
-      dispatch( setCurrentUser(currentUser) )
+      dispatch(setCurrentUser(currentUser))
     }
   }
 };
