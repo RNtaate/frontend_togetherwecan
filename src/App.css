@@ -1,0 +1,13 @@
+*, 
+*::after,
+*::before {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
