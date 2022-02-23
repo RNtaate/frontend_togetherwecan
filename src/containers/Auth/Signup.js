@@ -18,6 +18,7 @@ const Signup = (props) => {
     bank_name: '',
     country: '',
     email: '',
+    inviter_email: '',
     password: '',
     password_confirmation: '',
     contribution: false,
@@ -123,6 +124,11 @@ const Signup = (props) => {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control required type="password" placeholder="Password Confirmation" name='password_confirmation' onChange={handleChange} />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Fill here your inviter's email only if someone invited you</Form.Label>
+              <Form.Control type="email" placeholder="Enter your inviter's email" name='inviter_email' onChange={handleChange} />
             </Form.Group>
 
             <div className="form-check mb-3">
