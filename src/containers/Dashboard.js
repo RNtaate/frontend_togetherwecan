@@ -1,37 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Form, FormControl } from 'react-bootstrap';
 
-import { setLoggedInStatus } from '../redux/actions';
+import { setLoggedInStatus, setCurrentUser } from '../redux/actions';
 
 const Dashboard = (props) => {
 
-  let {userObj, setUserLoggedInStatus} = props;
+  let { userObj, setUserLoggedInStatus } = props;
   let history = useHistory();
 
-  let handleLogout = () => {
-    axios.delete('http://localhost:3001/logout', {withCredentials: true})
-    .then((response) => {
-      console.log("Successfully looged out yay!");
-      console.log(response);
-      setUserLoggedInStatus(response.data.logged_in)
-      history.push("/login")
-    }).catch((error) => {
-      console.log('Someting went wrong', error);
-    })
+  let [capitalObject, setCapitalObject] = useState({
+    shares_number: 0
+  })
+
+  let [showSharesForm, setShowSharesForm] = useState(false);
+  let [disableSubmitButton, setDisableSubmitButton] = useState(false);
+
+  let handleFormShow = () => {
+    setShowSharesForm(!showSharesForm)
+  }
+
+  let handleChange = (e) => {
+    setCapitalObject({ ...capitalObject, [e.target.name]: [e.target.value] })
+  }
+
+  let handleSubmit = (e) => {
+    e.preventDefault();
+    setDisableSubmitButton(true);
+    let transactionObject = {
+      transaction: {
+        shares_number: capitalObject.shares_number.toString()
+      }
+    }
+
+    axios.post('http://localhost:3001/transactions', transactionObject, { withCredentials: true })
+      .then((response) => {
+        console.log(response);
+        setShowSharesForm(false);
+      }).catch((error) => {
+        console.log("Oops! Something went wrong", error);
+      }).finally(() => {
+        setDisableSubmitButton(false)        
+      })
   }
 
   return (
-    <div>
+    <Container fluid>
       <h2 className="text-secondary">Dashboard</h2>
       <h4>Welcome {userObj.user.first_name.toUpperCase()}</h4>
 
-      <Button type="button" onClick={handleLogout}>
-        Log Out
-      </Button>
-    </div>
+      <Button type="button" bg="dark" variant="dark" onClick={handleFormShow}>Purchase Shares</Button>
+
+      {showSharesForm && <Form className="w-50 mt-4" onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label>Purchase Capitals</Form.Label>
+          <Form.Control name="shares_number" type="number" placeholder="Enter number of Shares you wish to purchase" onChange={handleChange} />
+        </Form.Group>
+        <Button disabled = {disableSubmitButton} type="submit" className="w-100">
+          Submit
+        </Button>
+      </Form>}
+    </Container>
   );
 };
 
