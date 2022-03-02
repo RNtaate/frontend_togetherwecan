@@ -10,6 +10,7 @@ import Login from './containers/Auth/Login';
 import PrivateRoute from './containers/Auth/PrivateRoute';
 // import userReducer from './redux/reducers/userReducer';
 import { setCurrentUser, setLoggedInStatus } from './redux/actions';
+import NavbarComponent from './containers/Navbar';
 
 
 
@@ -17,10 +18,23 @@ import { setCurrentUser, setLoggedInStatus } from './redux/actions';
 function App(props) {
   let { userObj, setUserLoggedInStatus, setUserObj } = props;
 
+  let handleLogout = () => {
+    axios.delete('http://localhost:3001/logout', {withCredentials: true})
+    .then((response) => {
+      console.log("Successfully looged out yay!");
+      console.log(response);
+      setUserLoggedInStatus(response.data.logged_in)
+      history.push("/login")
+    }).catch((error) => {
+      console.log('Someting went wrong', error);
+    })
+  }
+
 
   useEffect(() => {
 
-    axios.get('http://localhost:3001/logged_in', { withCredentials: true })
+    if(!userObj.loggedin) {
+      axios.get('http://localhost:3001/logged_in', { withCredentials: true })
       .then((response) => {
         console.log(response)
         setUserLoggedInStatus(response.data.logged_in)
@@ -28,6 +42,7 @@ function App(props) {
       }).catch((err) => {
         console.log(err)
       })
+    }
 
   }, [])
 
@@ -37,6 +52,7 @@ function App(props) {
       {
        Object.values(userObj).includes(null) ? <p>verifying credentials</p> :
           <BrowserRouter>
+            {userObj.loggedin && <NavbarComponent currentUser={userObj} handleLogout={handleLogout}/>} 
             <Switch>
               <PrivateRoute exact path='/' component={Dashboard}  />
               <PrivateRoute exact path='/home' component={Home} />
