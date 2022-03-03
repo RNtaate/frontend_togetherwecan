@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { Button, Container, Form, FormControl } from 'react-bootstrap';
 
 import { setLoggedInStatus, setCurrentUser } from '../redux/actions';
+import { PurchaseDetailsComponent, GiftDetailsComponent} from '../components/DetailsComponent';
+import { useEffect } from 'react';
 
 const Dashboard = (props) => {
 
@@ -17,6 +19,7 @@ const Dashboard = (props) => {
 
   let [showSharesForm, setShowSharesForm] = useState(false);
   let [disableSubmitButton, setDisableSubmitButton] = useState(false);
+  let [purchaseInfo, setPurchaseInfo] = useState(null)
 
   let handleFormShow = () => {
     setShowSharesForm(!showSharesForm)
@@ -46,6 +49,20 @@ const Dashboard = (props) => {
       })
   }
 
+  
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/purchases', {withCredentials: true})
+    .then((response) => {
+      console.log(response.data)
+      setPurchaseInfo(response.data)
+    })
+    .catch((err)=> {
+      console.log(err)
+    })
+
+  }, [])
+
   return (
     <Container fluid>
       <h2 className="text-secondary">Dashboard</h2>
@@ -62,6 +79,9 @@ const Dashboard = (props) => {
           Submit
         </Button>
       </Form>}
+      { purchaseInfo && <PurchaseDetailsComponent purchaseInfo = {purchaseInfo}/>}
+      { purchaseInfo && <GiftDetailsComponent purchaseInfo = {purchaseInfo}/>}
+
     </Container>
   );
 };
