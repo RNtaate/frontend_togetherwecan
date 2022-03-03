@@ -3,7 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux';
 import './App.css';
 import Dashboard from './containers/Dashboard';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route,useHistory } from 'react-router-dom';
 import Signup from './containers/Auth/Signup';
 import Home from './components/Home';
 import Login from './containers/Auth/Login';
@@ -17,6 +17,7 @@ import NavbarComponent from './containers/Navbar';
 
 function App(props) {
   let { userObj, setUserLoggedInStatus, setUserObj } = props;
+  let history = useHistory();
 
   let handleLogout = () => {
     axios.delete('http://localhost:3001/logout', {withCredentials: true})
