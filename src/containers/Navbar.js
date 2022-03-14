@@ -5,7 +5,7 @@ let NavbarComponent = ({currentUser, handleLogout}) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#">ISHAMI</Navbar.Brand>
+        <Navbar.Brand href="/">ISHAMI</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -17,6 +17,7 @@ let NavbarComponent = ({currentUser, handleLogout}) => {
             <Nav.Link href="/">Dashboard</Nav.Link>
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="#action2">About</Nav.Link>
+            <Nav.Link href="/transactions">Transactions</Nav.Link>
             <NavDropdown title={currentUser.user.first_name} id="navbarScrollingDropdown" className="dropdown-menu-right">
               <NavDropdown.Item href="#action3" onClick={() => handleLogout()}>Logout</NavDropdown.Item>
               <NavDropdown.Divider />

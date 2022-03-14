@@ -6,6 +6,7 @@ import Dashboard from './containers/Dashboard';
 import { BrowserRouter, Switch, Route,useHistory } from 'react-router-dom';
 import Signup from './containers/Auth/Signup';
 import Home from './components/Home';
+import Transaction from './containers/Transaction';
 import Login from './containers/Auth/Login';
 import PrivateRoute from './containers/Auth/PrivateRoute';
 // import userReducer from './redux/reducers/userReducer';
@@ -51,12 +52,14 @@ function App(props) {
 
     <div className="App">
       {
-       Object.values(userObj).includes(null) ? <p>verifying credentials</p> :
+       Object.values(userObj).includes(null) ? <div className="loading-div"></div> :
           <BrowserRouter>
             {userObj.loggedin && <NavbarComponent currentUser={userObj} handleLogout={handleLogout}/>} 
             <Switch>
               <PrivateRoute exact path='/' component={Dashboard}  />
               <PrivateRoute exact path='/home' component={Home} />
+              <PrivateRoute exact path='/transactions' component={Transaction} />
+
               <Route exact path='/signup' component={Signup} />
               <Route exact path='/login' component={Login} />
 
