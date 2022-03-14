@@ -65,7 +65,6 @@ const Dashboard = (props) => {
 
   return (
     <Container fluid>
-      <h2 className="text-secondary">Dashboard</h2>
       <h4>Welcome {userObj.user.first_name.toUpperCase()}</h4>
 
       <Button type="button" bg="dark" variant="dark" onClick={handleFormShow}>Purchase Shares</Button>
